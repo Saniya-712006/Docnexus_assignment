@@ -12,6 +12,7 @@ def get_physicians():
     specialty = request.args.get("specialty")
     state = request.args.get("state")
     affiliation = request.args.get("affiliation")
+    registration_year = request.args.get("registrationYear")
 
     if specialty:
         query["specialty"] = specialty
@@ -20,7 +21,10 @@ def get_physicians():
         query["state"] = state
 
     if affiliation:
-        query["affiliation"] = affiliation
+        query["affiliation"] = {"$regex": affiliation,"$options": "i"}
+
+    if registration_year:
+        query["npiRegistrationYear"] = int(registration_year)
 
     physicians = list(db.physicians.find(query))
 
