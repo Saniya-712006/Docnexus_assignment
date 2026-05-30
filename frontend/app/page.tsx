@@ -2,9 +2,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Physician } from "@/types/physician";
 import { getPhysicians } from "@/services/physicianService";
 import PhysicianCard from "@/components/PhysicianCard";
+
+
 
 export default function Home() {
   const [physicians, setPhysicians] = useState<Physician[]>([]);
@@ -14,6 +17,7 @@ export default function Home() {
   const [stateFilter, setStateFilter] = useState("");
   const [affiliation, setAffiliation] = useState("");
   const [registrationYear, setRegistrationYear] = useState("");
+  const router = useRouter();
   const availableYears = [
   ...new Set(
     physicians.map(
@@ -21,6 +25,18 @@ export default function Home() {
     )
   ),
 ].sort();
+
+const handleAddToCampaign = () => {
+
+  localStorage.setItem(
+    "selectedPhysicians",
+    JSON.stringify(selectedPhysicians)
+  );
+
+  router.push("/campaign-builder");
+
+};
+
   useEffect(() => {
 
   const fetchData = async () => {
@@ -108,10 +124,24 @@ export default function Home() {
 
 </div>
       <div className="mb-4 font-medium">
-          {physicians.length} Physicians |
+          {physicians.length} Physicians Available|
           {" "}
-          {selectedPhysicians.length} Selected
+          {selectedPhysicians.length} Selected for Campaign
       </div>
+      <button
+        onClick={handleAddToCampaign}
+        disabled={selectedPhysicians.length === 0}
+        className="
+          bg-blue-600
+          text-white
+          px-4
+          py-2
+          rounded
+          disabled:opacity-50
+        "
+      >
+        Save & Add To Campaign
+      </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
         
