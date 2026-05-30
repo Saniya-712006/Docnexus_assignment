@@ -10,6 +10,16 @@ import {
   getCampaignById
 } from "@/services/campaignService";
 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
+
 export default function CampaignDetails() {
 
     const params = useParams();
@@ -54,6 +64,28 @@ const campaignId = params.id as string;
 
     })
     );
+    const outreachData = [
+  {
+    day: "Day 1",
+    messages: 2,
+  },
+  {
+    day: "Day 2",
+    messages: 5,
+  },
+  {
+    day: "Day 3",
+    messages: 8,
+  },
+  {
+    day: "Day 4",
+    messages: 6,
+  },
+  {
+    day: "Day 5",
+    messages: 10,
+  },
+];
 
   return (
 
@@ -129,7 +161,51 @@ const campaignId = params.id as string;
     </div>
 
     </div>
+<h2 className="text-2xl mt-8 mb-4">
+  Outreach Activity
+</h2>
 
+<div
+  className="
+    bg-slate-900
+    p-4
+    rounded-xl
+    mb-8
+  "
+>
+
+  <ResponsiveContainer
+    width="100%"
+    height={300}
+  >
+
+    <LineChart
+      data={outreachData}
+    >
+
+      <CartesianGrid
+        strokeDasharray="3 3"
+      />
+
+      <XAxis
+        dataKey="day"
+      />
+
+      <YAxis />
+
+      <Tooltip />
+
+      <Line
+        type="monotone"
+        dataKey="messages"
+        stroke="#22d3ee"
+      />
+
+    </LineChart>
+
+  </ResponsiveContainer>
+
+</div>
     <h2 className="text-2xl mt-8 mb-4">
   Enrolled Physicians
 </h2>
