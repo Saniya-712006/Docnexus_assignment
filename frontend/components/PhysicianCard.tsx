@@ -32,6 +32,9 @@ export default function PhysicianCard({ physician, isSelected, onToggle }: Props
       <p className="text-sm">
         {physician.city}, {physician.state}
       </p>
+      <p className="text-sm text-gray-500">
+        NPI Registration Year: {" "} {physician.npiRegistrationYear}
+      </p>
 
       
     </div>
