@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Physician } from "@/types/physician";
 import { getPhysicians } from "@/services/physicianService";
+import PhysicianCard from "@/components/PhysicianCard";
 
 export default function Home() {
   const [physicians, setPhysicians] = useState<Physician[]>([]);
@@ -22,9 +23,14 @@ export default function Home() {
         Physician Discovery
       </h1>
 
-      <p>
-        Total Physicians: {physicians.length}
-      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        {physicians.map((physician) => (
+          <PhysicianCard
+            key={physician.id}
+            physician={physician}
+          />
+        ))}
+      </div>
     </main>
   );
 }
