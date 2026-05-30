@@ -6,8 +6,18 @@ import {
   createCampaign,
   launchCampaign
 } from "@/services/campaignService";
-
+import { getPhysicians }
+from "@/services/physicianService";
 import Link from "next/link";
+import { Physician } from "@/types/physician";
+// import {
+//   generateAIEmail
+// }
+// from "@/services/campaignService";
+import {
+  generateAIEmail
+}
+from "@/services/aiService";
 
 export default function CampaignBuilder() {
 
@@ -25,6 +35,8 @@ export default function CampaignBuilder() {
   specialty: "Oncology",
   affiliation: "Stanford Health"
 };
+const [allPhysicians, setAllPhysicians] =
+  useState<Physician[]>([]);
 const router = useRouter();
 const generatePreview = (text: string) => {
 
@@ -130,35 +142,110 @@ const handleLaunchCampaign =
   };
   useEffect(() => {
 
-    const stored =
-      localStorage.getItem(
-        "selectedPhysicians"
+  const fetchData =
+    async () => {
+
+      const physicians =
+        await getPhysicians();
+
+      setAllPhysicians(
+        physicians
       );
 
-    if (stored) {
+      const stored =
+        localStorage.getItem(
+          "selectedPhysicians"
+        );
 
-      setSelectedPhysicians(
-        JSON.parse(stored)
+      if (stored) {
+
+        setSelectedPhysicians(
+          JSON.parse(stored)
+        );
+
+      }
+
+    };
+
+  fetchData();
+
+}, []);
+
+const handleGenerateAI =
+  async () => {
+
+    const result =
+      await generateAIEmail(
+        campaignName,
+        campaignType
       );
 
-    }
+    const email =
+      result.email;
 
-  }, []);
+    const subjectMatch =
+      email.match(
+        /SUBJECT:\s*([\s\S]*?)BODY:/
+      );
 
+    const bodyMatch =
+      email.match(
+        /BODY:\s*([\s\S]*)/
+      );
+
+    if (subjectMatch)
+      setStep1Subject(
+        subjectMatch[1].trim()
+      );
+
+    if (bodyMatch)
+      setStep1Body(
+        bodyMatch[1].trim()
+      );
+
+  };
+  
+  const selectedPhysicianData =
+  allPhysicians.filter(
+    (physician) =>
+      selectedPhysicians.includes(
+        physician.id
+      )
+  );
   return (
 
     <main className="p-8">
 
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="text-5xl font-bold mb-8">
         Campaign Builder
       </h1>
 
-      <p>
+      <div
+        className="
+          bg-cyan-600
+          text-white
+          inline-block
+          px-4
+          py-2
+          rounded-lg
+          mb-6
+          font-semibold
+        "
+      >
         Selected Physicians:
         {" "}
         {selectedPhysicians.length}
-      </p>
-    <div className="mt-6">
+      </div>
+    <div
+      className="
+        bg-slate-800
+        border
+        border-slate-700
+        rounded-xl
+        p-6
+        mt-6
+      "
+    >
 
         <input
             type="text"
@@ -200,9 +287,101 @@ const handleLaunchCampaign =
         </select>
             
         </div>
+        <div
+  className="
+    mt-6
+    bg-slate-800
+    border
+    border-slate-700
+    rounded-xl
+    p-6
+  "
+>
+
+  <h2 className="text-xl font-semibold mb-4">
+    Personalized Preview
+  </h2>
+
+  {
+    selectedPhysicianData.map(
+      (doctor) => {
+
+        const subject =
+          generatePreview(
+            step1Subject
+          )
+            .replace(
+              "Sarah",
+              doctor.firstName
+            );
+
+        const body =
+          step1Body
+            .replace(
+              /{{doctor_name}}/g,
+              doctor.firstName
+            )
+            .replace(
+              /{{specialty}}/g,
+              doctor.specialty
+            )
+            .replace(
+              /{{affiliation}}/g,
+              doctor.affiliation
+            );
+
+        return (
+
+          <div
+            key={doctor.id}
+            className="
+              border
+              border-slate-600
+              rounded-lg
+              p-4
+              mb-4
+            "
+          >
+
+            <h3 className="font-semibold mb-2">
+              Dr. {doctor.firstName} {doctor.lastName}
+            </h3>
+
+         
+
+            <p>
+              <strong>Subject:</strong>
+              {" "}
+              {subject}
+            </p>
+
+            <p>
+              <strong>Body:</strong>
+              {" "}
+              {body}
+            </p>
+
+          </div>
+
+        );
+
+      }
+    )
+  }
+
+</div>
         <br/>
 
-        <div className="border rounded p-4 mb-6">
+        <div
+          className="
+            bg-slate-800
+            border
+            border-slate-700
+            rounded-xl
+            p-6
+            mb-6
+          "
+        >
 
         <h3 className="font-semibold mb-2">
             Available Template Variables
@@ -210,15 +389,36 @@ const handleLaunchCampaign =
 
         <div className="flex gap-2 flex-wrap">
 
-            <span className="border px-2 py-1 rounded">
+            <span className="
+              bg-cyan-700
+              text-white
+              px-3
+              py-1
+              rounded-full
+              text-sm
+            ">
             {"{{doctor_name}}"}
             </span>
 
-            <span className="border px-2 py-1 rounded">
+            <span className="
+              bg-cyan-700
+              text-white
+              px-3
+              py-1
+              rounded-full
+              text-sm
+            ">
             {"{{specialty}}"}
             </span>
 
-            <span className="border px-2 py-1 rounded">
+            <span className="
+              bg-cyan-700
+              text-white
+              px-3
+              py-1
+              rounded-full
+              text-sm
+            ">
             {"{{affiliation}}"}
             </span>
 
@@ -227,12 +427,36 @@ const handleLaunchCampaign =
         </div>
  
 
-        <div className="mt-8">
+        <div
+          className="
+            bg-slate-800
+            border
+            border-slate-700
+            rounded-xl
+            p-6
+            mt-8
+          "
+        >
 
         <h2 className="text-xl font-semibold mb-4">
             Step 1 Email
         </h2>
+           <button
+  onClick={handleGenerateAI}
+  className="
+    bg-purple-600
+    hover:bg-purple-700
+    text-white
+    px-4
+    py-2
+    rounded
+    mb-4
+  "
+>
 
+  Generate with AI
+
+</button>
         <input
             type="text"
             placeholder="Subject"
@@ -267,7 +491,16 @@ const handleLaunchCampaign =
 
         </div>
 
-        <div>
+        <div
+          className="
+            bg-slate-800
+            border
+            border-slate-700
+            rounded-xl
+            p-6
+            mt-6
+          "
+        >
 
         <h2 className="text-xl font-semibold mb-4">
             Step 2 Follow-up
@@ -320,7 +553,16 @@ const handleLaunchCampaign =
 
         </div>
 
-        <div className="mt-8 border rounded p-4">
+        <div
+          className="
+            mt-8
+            bg-slate-800
+            border
+            border-slate-700
+            rounded-xl
+            p-6
+          "
+        >
 
   <h2 className="text-xl font-semibold mb-4">
     Email Preview
@@ -349,7 +591,7 @@ const handleLaunchCampaign =
   <button
     onClick={handleSaveDraft}
     className="
-      bg-green-600
+      bg-green-600 hover:bg-green-700
       text-white
       px-4
       py-2
@@ -363,7 +605,7 @@ const handleLaunchCampaign =
   onClick={handleLaunchCampaign}
   disabled={!campaignId}
   className="
-    bg-red-600
+    bg-orange-600 hover:bg-orange-700
     text-white
     px-4
     py-2
@@ -379,7 +621,7 @@ const handleLaunchCampaign =
     router.push("/campaigns")
   }
   className="
-    bg-blue-600
+    bg-cyan-600 hover:bg-cyan-700
     text-white
     px-4
     py-2

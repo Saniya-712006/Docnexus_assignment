@@ -86,9 +86,20 @@ const campaignId = params.id as string;
       </p>
       <div className="grid grid-cols-5 gap-4 my-8">
 
-    <div className="border p-4 rounded">
-        <h3>Enrolled</h3>
-        <p>
+    <div
+    className="
+        bg-slate-800
+        border
+        border-slate-700
+        rounded-xl
+        p-4
+        shadow-md
+    "
+    >
+        <h3 className="text-sm text-slate-400">
+            Enrolled
+            </h3>
+        <p className="text-3xl font-bold mt-2">
         {
             campaign
             .enrolledPhysicianIds
@@ -98,23 +109,23 @@ const campaignId = params.id as string;
     </div>
 
     <div className="border p-4 rounded">
-        <h3>Messages Sent</h3>
-        <p>14</p>
+        <h3 className="text-sm text-slate-400">Messages Sent</h3>
+        <p className="text-3xl font-bold mt-2">14</p>
     </div>
 
     <div className="border p-4 rounded">
-        <h3>Open Rate</h3>
-        <p>42%</p>
+        <h3 className="text-sm text-slate-400">Open Rate</h3>
+        <p className="text-3xl font-bold mt-2">42%</p>
     </div>
 
     <div className="border p-4 rounded">
-        <h3>Replies</h3>
-        <p>3</p>
+        <h3 className="text-sm text-slate-400">Replies</h3>
+        <p className="text-3xl font-bold mt-2">3</p>
     </div>
 
     <div className="border p-4 rounded">
-        <h3>Meetings</h3>
-        <p>1</p>
+        <h3 className="text-sm text-slate-400">Meetings</h3>
+        <p className="text-3xl font-bold mt-2">1</p>
     </div>
 
     </div>

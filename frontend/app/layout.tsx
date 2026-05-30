@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/dist/client/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,62 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body>
+
+  <nav
+    className="
+      bg-slate-900
+      border-b
+      border-slate-700
+      px-8
+      py-4
+      flex
+      justify-between
+      gap-8
+      sticky
+      top-0
+      z-50
+    "
+  >
+    <div className="font-bold text-cyan-400">
+    DocNexus
+  </div>
+
+    <Link
+      href="/"
+      className="
+        font-semibold
+        hover:text-cyan-400
+      "
+    >
+      Physician Discovery
+    </Link>
+
+    <Link
+      href="/campaign-builder"
+      className="
+        font-semibold
+        hover:text-cyan-400
+      "
+    >
+      Campaign Builder
+    </Link>
+
+    <Link
+      href="/campaigns"
+      className="
+        font-semibold
+        hover:text-cyan-400
+      "
+    >
+      Dashboard
+    </Link>
+
+  </nav>
+
+  {children}
+
+</body>
     </html>
   );
 }

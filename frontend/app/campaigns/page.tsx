@@ -32,7 +32,7 @@ export default function CampaignsPage() {
 
     <main className="p-8">
 
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="text-5xl font-bold mb-8">
         Campaign Dashboard
       </h1>
 
@@ -45,23 +45,32 @@ export default function CampaignsPage() {
   key={campaign._id}
 >
           <div
-            key={campaign._id}
-            className="
-              border
-              rounded-lg
-              p-4
-              shadow
-            "
-          >
+          key={campaign._id}
+          className="
+            bg-slate-800
+            border
+            border-slate-700
+            rounded-xl
+            p-6
+            shadow-lg
 
-            <h2 className="text-xl font-semibold">
+            hover:border-cyan-500
+            hover:scale-[1.01]
+            hover:shadow-xl
+
+            transition
+            duration-200
+
+            cursor-pointer
+          "
+        >
+
+            <h2 className="text-2xl font-bold mb-3">
               {campaign.name}
             </h2>
 
-            <p>
-              Type:
-              {" "}
-              {campaign.type}
+            <p className="text-slate-300 mb-2">
+              Type: {campaign.type}
             </p>
 
             <div className="mt-2">
@@ -100,8 +109,8 @@ export default function CampaignsPage() {
 
             </div>
 
-            <p>
-              Physicians:
+            <p className="mt-4">
+              👨‍⚕️ Physicians:
               {" "}
               {
                 campaign
@@ -111,7 +120,7 @@ export default function CampaignsPage() {
             </p>
 
             <p>
-              Sequence Steps:
+              📧 Sequence Steps:
               {" "}
               {
                 campaign

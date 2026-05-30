@@ -36,6 +36,18 @@ export default function RootLayout({
 
         {children}
 
+       <footer
+      className="
+        text-center
+        text-slate-500
+        py-4
+        border-t
+        border-slate-800
+      "
+    >
+      DocNexus Assignment • Next.js + Flask + MongoDB
+    </footer>
+
       </body>
     </html>
   );

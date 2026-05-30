@@ -1,0 +1,48 @@
+# Python
+
+backend/venv/
+backend/**pycache**/
+backend/**/*.pyc
+backend/**/*.pyo
+
+# Environment Variables
+
+.env
+backend/.env
+frontend/.env
+
+# Node
+
+frontend/node_modules/
+
+# Next.js
+
+frontend/.next/
+frontend/out/
+
+# Logs
+
+*.log
+
+# VS Code
+
+.vscode/
+
+# OS
+
+.DS_Store
+Thumbs.db
+
+# Build
+
+dist/
+build/
+
+# Coverage
+
+coverage/
+
+# Temporary
+
+*.tmp
+*.temp

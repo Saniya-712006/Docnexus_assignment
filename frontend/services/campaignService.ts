@@ -56,3 +56,27 @@ async (
   return response.json();
 
 };
+
+export const generateAIEmail =
+  async (physician: any) => {
+
+    const response =
+      await fetch(
+        "http://127.0.0.1:5000/ai/generate-email",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify(
+            physician
+          )
+        }
+      );
+
+    return response.json();
+
+  };

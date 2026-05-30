@@ -3,11 +3,13 @@ from flask_cors import CORS
 from config import db
 from routes.physician_routes import physician_bp
 from routes.campaign_routes import campaign_bp
+from routes.ai_routes import ai_bp
 
 app = Flask(__name__)
 CORS(app)
 app.register_blueprint(physician_bp)
 app.register_blueprint(campaign_bp)
+app.register_blueprint(ai_bp)
 
 @app.route("/")
 def home():
