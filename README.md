@@ -327,6 +327,6 @@ Watch the complete walkthrough here:
 
 ## Author
 
-Saniya Ali
+Shaikh Saniya Ali
 
 DocNexus Full Stack Engineer Internship Assignment
