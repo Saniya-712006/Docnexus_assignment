@@ -11,6 +11,24 @@ The application follows the workflow:
 Physician Discovery → Campaign Builder → Campaign Dashboard
 
 ---
+## Assignment Highlights
+
+✅ Physician Discovery with filtering
+
+✅ Campaign Builder with multi-step sequences
+
+✅ MongoDB persistence
+
+✅ Campaign Dashboard and analytics
+
+✅ AI-powered email generation using Groq Llama 3.3 70B
+
+✅ Personalized outreach template generation
+
+✅ Dynamic physician preview
+
+✅ Responsive Next.js + Flask architecture
+---
 
 ## Features
 
@@ -116,24 +134,56 @@ Example placeholders:
 
 ## Architecture
 
+### Core Application Flow
+
+```text
 Frontend (Next.js)
-↓
+        │
+        ▼
 REST API (Flask)
-↓
+        │
+        ▼
 MongoDB
+```
 
-AI Email Generation
+### AI Email Generation Flow
 
+```text
 Frontend
-↓
+    │
+    ▼
 Flask AI Endpoint
-↓
-Groq API
-↓
+    │
+    ▼
+Groq API (Llama 3.3 70B)
+    │
+    ▼
 Generated Outreach Template
+```
 
 ---
+## Project Structure
 
+```text
+docnexus_assignment/
+│
+├── backend/
+│   ├── controllers/
+│   ├── routes/
+│   ├── services/
+│   ├── models/
+│   └── app.py
+│
+├── frontend/
+│   ├── app/
+│   ├── components/
+│   ├── services/
+│   ├── types/
+│   └── public/
+│
+└── README.md
+```
+---
 ## API Endpoints
 
 ### Physicians
@@ -257,7 +307,7 @@ http://localhost:3000
 Given additional time, I would implement:
 
 * Real email delivery (SendGrid / Resend)
-* Campaign scheduling and automation
+* Advanced campaign analytics and historical trend tracking
 * Physician segmentation and saved audiences
 * Campaign analytics charts
 * Open/click tracking
@@ -269,9 +319,9 @@ Given additional time, I would implement:
 
 ## Demo Video
 
-Demo Link:
+Watch the complete walkthrough here:
 
-(Add Loom / YouTube / Drive link here)
+[DOCNEXUS ASSIGNMENT DEMO](https://drive.google.com/drive/folders/1_yuByKH8DPZnzKOJGSg3X_C1Frf76ARp?usp=sharing)
 
 ---
 
