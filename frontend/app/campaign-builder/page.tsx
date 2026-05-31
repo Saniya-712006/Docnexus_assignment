@@ -19,6 +19,7 @@ import {
 }
 from "@/services/aiService";
 
+
 export default function CampaignBuilder() {
 
   const [selectedPhysicians, setSelectedPhysicians] = useState<string[]>([]);
@@ -104,6 +105,29 @@ const handleSaveDraft = async () => {
       "Campaign saved successfully!"
     );
 
+    localStorage.setItem(
+  "campaignDraft",
+  JSON.stringify({
+
+    campaignId: result._id,
+
+    campaignName,
+
+    campaignType,
+
+    step1Subject,
+
+    step1Body,
+
+    step2Delay,
+
+    step2Subject,
+
+    step2Body
+
+  })
+);
+
   } catch (error) {
 
     console.error(error);
@@ -122,12 +146,44 @@ const handleLaunchCampaign =
     try {
 
       await launchCampaign(
-        campaignId
-      );
+  campaignId
+);
 
-      alert(
-        "Campaign launched!"
-      );
+localStorage.removeItem(
+  "campaignDraft"
+);
+
+localStorage.removeItem(
+  "selectedPhysicians"
+);
+
+setSelectedPhysicians([]);
+
+setCampaignName("");
+
+setCampaignType(
+  "cold_outbound"
+);
+
+setStep1Subject("");
+
+setStep1Body("");
+
+setStep2Delay(5);
+
+setStep2Subject("");
+
+setStep2Body("");
+
+setCampaignId("");
+
+alert(
+  "Campaign launched!"
+);
+
+ router.push(
+    "/campaigns"
+  );
 
     } catch (error) {
 
@@ -171,8 +227,66 @@ const handleLaunchCampaign =
 
 }, []);
 
+useEffect(() => {
+
+  const savedDraft =
+    localStorage.getItem(
+      "campaignDraft"
+    );
+
+  if (savedDraft) {
+
+  const draft =
+    JSON.parse(savedDraft);
+
+  setCampaignId(
+    draft.campaignId || ""
+  );
+
+  setCampaignName(
+    draft.campaignName || ""
+  );
+
+  setCampaignType(
+    draft.campaignType ||
+    "cold_outbound"
+  );
+
+  setStep1Subject(
+    draft.step1Subject || ""
+  );
+
+  setStep1Body(
+    draft.step1Body || ""
+  );
+
+  setStep2Delay(
+    draft.step2Delay || 5
+  );
+
+  setStep2Subject(
+    draft.step2Subject || ""
+  );
+
+  setStep2Body(
+    draft.step2Body || ""
+  );
+
+}
+
+}, []);
+
 const handleGenerateAI =
   async () => {
+
+     if (!campaignName || !campaignType) {
+
+    alert(
+      "Please enter Campaign Name and Campaign Type first."
+    );
+
+    return;
+  }
 
     const result =
       await generateAIEmail(
@@ -553,38 +667,7 @@ const handleGenerateAI =
 
         </div>
 
-        <div
-          className="
-            mt-8
-            bg-slate-800
-            border
-            border-slate-700
-            rounded-xl
-            p-6
-          "
-        >
-
-  <h2 className="text-xl font-semibold mb-4">
-    Email Preview
-  </h2>
-
-  <p className="font-semibold">
-    Subject:
-  </p>
-
-  <p className="mb-4">
-    {generatePreview(step1Subject)}
-  </p>
-
-  <p className="font-semibold">
-    Body:
-  </p>
-
-  <p>
-    {generatePreview(step1Body)}
-  </p>
-
-</div>
+       
 
 <div className="mt-6">
 
